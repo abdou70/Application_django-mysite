@@ -21,7 +21,7 @@ from django.contrib import admin
 from django.urls import path,include 
 
 from mysite import settings
-from student_management_app import views
+from student_management_app import views,hodviews
 
 urlpatterns = [
     path('student/',views.showview),
@@ -29,5 +29,6 @@ urlpatterns = [
     path('get_user_details',views.GetUserDetails),
     path('logout_user',views.logout_user),
     path('doLogin',views.doLogin),
+    path('admin_home',hodviews.showpage),
     path('admin/', admin.site.urls),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
