@@ -25,8 +25,6 @@ class Staffs(models.Model):
     objects=models.Manager()
 
 
-
-
 class Courses(models.Model):
     id=models.AutoField(primary_key=True)
     courses_name=models.CharField(max_length=255)
@@ -37,8 +35,8 @@ class Courses(models.Model):
 class Subject(models.Model):
     id=models.AutoField(primary_key=True)
     subject_name=models.CharField(max_length=255)
-    courses_id=models.ForeignKey(Courses, on_delete=models.CASCADE)
-    staffs_id=models.ForeignKey(Staffs, on_delete=models.CASCADE)
+    courses_id=models.ForeignKey(Courses, on_delete=models.CASCADE,default=1)
+    staffs_id=models.ForeignKey(CostumUser, on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
     objects=models.Manager()
@@ -130,15 +128,16 @@ class NotificationSaff(models.Model):
 
 
 @receiver(post_save,sender=CostumUser)
-def create_user_profile(sender,instance,created,**kwargs):
-    if instance.user_type==1:
-        AdminHOD.objects.create(admin=instance)
-    
-    if instance.user_type==2:
-        Staffs.objects.create(admin=instance)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        if instance.user_type==1:
+            AdminHOD.objects.create(admin=instance)
 
-    if instance.user_type==1:
-        Student.objects.create(admin=instance)
+        if instance.user_type==2:
+            Staffs.objects.create(admin=instance,adresse="")
+
+        if instance.user_type==3:
+            Student.objects.create(admin=instance,coureses_id=Courses.objects.get(id=1),adresse="",session_start_year="2020-02-14",session_end_year="2022-02-14",gender="",student_pic="")
 
 
 @receiver(post_save,sender=CostumUser)

@@ -31,5 +31,12 @@ urlpatterns = [
     path('doLogin',views.doLogin),
     path('admin_home',hodviews.showpage),
     path('add_staff',hodviews.add_staff),
+    path('save_staff',hodviews.save_staff),
+    path('add_students',hodviews.add_students),
+    path('save_student',hodviews.save_student),
+    path('add_course',hodviews.add_course),
+    path('save_course',hodviews.save_course),
+    path('add_subject',hodviews.add_subject),
+    path('save_subject',hodviews.save_subject),
     path('admin/', admin.site.urls),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
