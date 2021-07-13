@@ -1,6 +1,6 @@
   {% extends 'hod_template/base_template.html'  %}
   {% block title_page %}
-  Manage Staff
+  Manage Cours
   {% endblock title_page %}
   {% block main_content %}
    <!-- Main content -->
@@ -11,7 +11,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Membre Staff</h3>
+                <h3 class="card-title">liste des Cours</h3>
 
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
@@ -30,27 +30,15 @@
                     <tr>
                       <th>ID</th>
                       <th>first name</th>
-                      <th>last name</th>
-                      <th>Email</th>
-                      <th>Username</th>
-                      <th>Adresse</th>
-                      <th>Last Login</th>
-                      <th>Date Joined</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                  {% for staffs in staffs %}
+                  {% for cours in cours %}
                     <tr>
-                      <td>{{ staffs.admin.id }}</td>
-                      <td>{{ staffs.admin.first_name }}</td>
-                      <td>{{ staffs.admin.last_name }}</td>
-                      <td>{{ staffs.admin.email }}</td>
-                      <td>{{ staffs.admin.username }}</td>
-                      <td>{{ staffs.adresse }}</td>
-                      <td>{{ staffs.admin.last_login }}</td>
-                      <td>{{ staffs.admin.date_joined }}</td>
-                      <td><a href="edit_staff/{{ staffs.admin.id }}" class="btn btn-success">edit</a></td>
+                      <td>{{ cours.id }}</td>
+                      <td>{{  cours.courses_name }}</td>
+                      <td><a href="edit_cours/{{ cours.id }}" class="btn btn-success">edit</a></td>
                     </tr>
 
                   {% endfor %}

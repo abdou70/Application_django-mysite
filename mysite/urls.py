@@ -38,5 +38,9 @@ urlpatterns = [
     path('save_course',hodviews.save_course),
     path('add_subject',hodviews.add_subject),
     path('save_subject',hodviews.save_subject),
+    path('show_manage',hodviews.show_manage),
+    path('show_student',hodviews.show_student),
+    path('show_cours',hodviews.show_cours),
+    path('show_subject',hodviews.show_subject),
     path('admin/', admin.site.urls),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

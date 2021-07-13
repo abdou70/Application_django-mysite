@@ -22,7 +22,7 @@ def save_staff(request):
         username=request.POST.get("username")
         email=request.POST.get("email")
         password=request.POST.get("password")
-        adresse = request.POST.get("adresse")
+        adresse= request.POST.get("adresse")
         try:
             user=CostumUser.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, password=password,user_type=2)
             user.staffs.adresse=adresse
@@ -111,3 +111,19 @@ def save_subject(request):
         except:
             messages.error(request, "subject non ajouter")
             return HttpResponseRedirect('/add_subject ')
+
+def show_manage(request):
+    staffs=Staffs.objects.all()
+    return render(request,"hod_template/manage_staff_template.html",{"staffs":staffs})
+
+def show_student(request):
+    students=Student.objects.all()
+    return render(request,'hod_template/manage_student_template.html',{"students":students})
+
+def show_cours(request):
+    cours=Courses.objects.all()
+    return render(request,'hod_template/manage_cours_template.html',{"cours":cours})
+
+def show_subject(request):
+    subjects=Subject.objects.all()
+    return render(request,'hod_template/manage_subject_template.html',{"subjects":subjects})
