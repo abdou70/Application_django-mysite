@@ -21,11 +21,11 @@ from django.contrib import admin
 from django.urls import path,include 
 
 from mysite import settings
-from student_management_app import views,hodviews
+from student_management_app import views,hodviews,staffViews,studentViews
 
 urlpatterns = [
     path('student/',views.showview,name="student"),
-    path('',views.Login,name="index"),
+    path('',views.Login,name="show_loging"),
     path('get_user_details',views.GetUserDetails,name="get_user_details"),
     path('logout_user',views.logout_user,name="logout_user"),
     path('doLogin',views.doLogin,name="doLogin"),
@@ -52,5 +52,7 @@ urlpatterns = [
     path('edit_subject_save',hodviews.edit_subject_save,name="edit_subject_save"),
     path('admin/', admin.site.urls),
     # Stafff_url
-    path('staff_home')
+    path('staff_home',staffViews.staff_home,name="staff_home"),
+    # Student_url
+    path('student_home',studentViews.student_home,name="student_home")
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
