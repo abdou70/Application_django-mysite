@@ -5,7 +5,7 @@
     <a href="index3.html" class="brand-link">
       <img src= "{% static "dist/img/AdminLTELogo.png" %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Mon App</span>
     </a>
 
     <!-- Sidebar -->
@@ -16,7 +16,7 @@
           <img src= "{% static "dist/img/user2-160x160.jpg" %} " class="img-circle elevation-2" alt="User Image" >
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{{user.username}}</a>
         </div>
       </div>
 
@@ -26,7 +26,8 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-              <a href="/add_staff" class="nav-link">
+              {% url 'add_staff' as add_staff %}
+              <a href="{{add_staff}}" class="nav-link {% if request.path == add_staff %} active {% endif %}">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Add staff
@@ -35,7 +36,9 @@
               </a>
             </li>
           <li class="nav-item">
-              <a href="/show_manage" class="nav-link">
+              {% url 'show_manage' as show_manage %}
+              {% url 'edit_staff' staffs_id=id as edit_staff %}
+              <a href="{{show_manage}}" class="nav-link {% if request.path == show_manage %} active {% endif %} {% if request.path == edit_staff %} active {% endif %}">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Manage Staff
@@ -44,7 +47,8 @@
               </a>
             </li>
           <li class="nav-item">
-              <a href="/add_students" class="nav-link">
+              {% url 'add_students' as add_students %}
+              <a href="{{add_students}}" class="nav-link {% if request.path == add_students %} active {% endif %}">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Add Students
@@ -53,7 +57,9 @@
               </a>
             </li>
           <li class="nav-item">
-              <a href="/show_student" class="nav-link">
+              {% url 'show_student' as show_student %}
+              {% url 'edit_student' student_id=id as edit_student %}
+              <a href="{{show_student}}" class="nav-link {% if request.path == show_student %} active {% endif %} {% if request.path == edit_student %} active {% endif %}">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Manage Students
@@ -62,7 +68,8 @@
               </a>
             </li>
           <li class="nav-item">
-              <a href="/add_course" class="nav-link">
+              {% url 'add_course' as add_course %}
+              <a href="{{add_course}}" class="nav-link {% if request.path == add_course %} active {% endif %}">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Add Course
@@ -71,7 +78,9 @@
               </a>
             </li>
           <li class="nav-item">
-              <a href="/show_cours" class="nav-link">
+              {% url 'show_cours' as show_cours %}
+              {% url 'edit_cours' cours_id=id as edit_cours %}
+              <a href="{{show_cours}}" class="nav-link {% if request.path == show_cours %} active {% endif %} {% if request.path == edit_cours %} active {% endif %}">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Manage Course
@@ -80,7 +89,8 @@
               </a>
             </li>
           <li class="nav-item">
-              <a href="/add_subject" class="nav-link">
+              {% url 'add_subject' as add_subject %}
+              <a href="{{add_subject}}" class="nav-link {% if request.path == add_subject %} active {% endif %}">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Add Subjetct
@@ -89,7 +99,9 @@
               </a>
             </li>
           <li class="nav-item">
-              <a href="/show_subject" class="nav-link">
+              {% url 'show_subject' as show_subject %}
+              {% url 'edit_subject' subject_id=id as edit_subject %}
+              <a href="{{ show_subject}}" class="nav-link {% if request.path == show_subject %} active {% endif %} {% if request.path == edit_subject %} active {% endif %}">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Manage Subject

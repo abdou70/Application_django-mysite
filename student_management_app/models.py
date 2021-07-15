@@ -6,12 +6,22 @@ from django.db import models
 
 
 class CostumUser(AbstractUser):
-    user_type_data=((1,"HOD"),(2,"Staffs"),(3,"Student"))
+    user_type_data=((1,"HOD"),(2,"Staffs"),(3,"Student"),(4,"Secretaire"))
     user_type=models.CharField(default=1,choices=user_type_data,max_length=10)
 
 class AdminHOD(models.Model):
     id=models.AutoField(primary_key=True)
     admin=models.OneToOneField(CostumUser,on_delete=models.CASCADE)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now_add=True)
+    objects=models.Manager()
+
+
+class Secretaire(models.Model):
+    admin=models.OneToOneField(CostumUser,on_delete=models.CASCADE)
+    nom =models.CharField(max_length=255)
+    prenom=models.CharField(max_length=150)
+    adresse=models.CharField(max_length=255)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
     objects=models.Manager()
@@ -44,6 +54,7 @@ class Student(models.Model):
     id=models.AutoField(primary_key=True)
     admin=models.OneToOneField(CostumUser,on_delete=models.CASCADE)
     gender=models.CharField(max_length=255)
+    date_naissance=models.DateField(default="2010-05-10")
     student_pic=models.FileField()
     adresse=models.TextField()
     session_start_year=models.DateField()
@@ -136,7 +147,8 @@ def create_user_profile(sender, instance, created, **kwargs):
 
         if instance.user_type==3:
             Student.objects.create(admin=instance,coureses_id=Courses.objects.get(id=1),adresse="",session_start_year="2020-02-14",session_end_year="2022-02-14",gender="",student_pic="")
-
+        if instance.user_type==4:
+            Secretaire.objects.create(admin=instance)
 
 @receiver(post_save,sender=CostumUser)
 def save_user_profile(sender,instance,**kwargs):
@@ -148,3 +160,6 @@ def save_user_profile(sender,instance,**kwargs):
 
     if instance.user_type==3:
         instance.student.save()
+
+    if instance.user_type==4:
+        instance.secretaire.save()

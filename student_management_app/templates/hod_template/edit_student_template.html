@@ -1,6 +1,6 @@
   {% extends 'hod_template/base_template.html'  %}
   {% block title_page %}
-  Add Student
+  Edit Student|Username :{{students.admin.username}} |#ID:{{students.admin.id}}
   {% endblock title_page %}
   {% block main_content %}
    <!-- Main content -->
@@ -12,58 +12,55 @@
               <!-- general form elements -->
               <div class="card card-primary">
                 <div class="card-header">
-                  <h3 class="card-title">Add Student</h3>
+                  <h3 class="card-title">Edit Student</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form" action="/save_student" method="post" enctype="multipart/form-data">
+                <form role="form" action="/edit_student_save" method="post"  enctype="multipart/form-data" >
                     {% csrf_token %}
                   <div class="card-body">
                      <div class="form-group">
                       <label>First Name</label>
-                      <input type="text" class="form-control" name="nom" placeholder="prenom_student">
+                      <input type="text" class="form-control" name="nom" value="{{students.admin.first_name}}">
+                      <input type="hidden"  name="student_id" value="{{students.admin.id}}">
                     </div>
                      <div class="form-group">
                       <label>Last Name</label>
-                      <input type="text" class="form-control" name="prenom" placeholder="nom_student">
+                      <input type="text" class="form-control" name="prenom" value="{{students.admin.last_name}}">
                     </div>
                       <div class="form-group">
                       <label>Username</label>
-                      <input type="text" class="form-control" name="username" placeholder="nom_utilisateur">
+                      <input type="text" class="form-control" name="username" value="{{students.admin.username}}">
                     </div>
                     <div class="form-group">
                       <label>Adresse</label>
-                      <input type="text" class="form-control" name="adresse" placeholder="adresse_student">
+                      <input type="text" class="form-control" name="adresse" value="{{students.adresse}}">
                     </div>
                     <div class="form-group">
                       <label>sex</label>
                       <select  class="form-control" name="genre">
                           <option>Choisir le sex</option>
-                          <option>Masculin</option>
-                          <option>Feminin</option>
+                          <option {% if student.gender == "Masculin" %} selected {% endif %}> Masculin</option>
+                          <option {% if student.gender == "Feminin" %} selected {% endif %}> Feminin</option>
                       </select>
                     </div>
                     <div class="form-group">
                       <label>Session_start_year</label>
-                      <input type="date" class="form-control" name="start_year" placeholder="session_start">
+                      <input type="date" class="form-control" name="start_year" value="{{students.session_start_year| date:"Y-m-d" }}">
                     </div>
                     <div class="form-group">
                       <label>Session_end_year</label>
-                      <input type="date" class="form-control" name="end_year" placeholder="session_end">
+                      <input type="date" class="form-control" name="end_year" value="{{students.session_end_year| date:"Y-m-d" }}">
                     </div>
                     <div class="form-group">
                       <label>Email address</label>
-                      <input type="email" class="form-control" name="email" placeholder="email_student">
-                    </div>
-                    <div class="form-group">
-                      <label>Password</label>
-                      <input type="password" class="form-control" name="password" placeholder="Password">
+                      <input type="email" class="form-control" name="email" value="{{students.admin.email}}">
                     </div>
                     <div class="form-group">
                       <label>cours_inscris</label>
                       <select class="form-control" name="cours_id" >
                           {% for course in courses%}
-                          <option value="{{course.id}}">{{course.courses_name}}</option>
+                          <option value="{{course.id}} " {% if course.id == student.coureses_id.id %} selected {% endif %}>{{course.courses_name}}</option>
                           {% endfor %}
                       </select>
                     </div>
@@ -85,10 +82,12 @@
                             </div>
                             {% endif %}
                     </div >
+
                   </div>
                   <!-- /.card-body -->
+
                   <div class="card-footer">
-                    <button type="submit" class="btn btn-primary btn btn-block">Add Student</button>
+                    <button type="submit" class="btn btn-primary btn btn-block">Save Student</button>
                   </div>
                 </form>
               </div>

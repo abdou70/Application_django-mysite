@@ -54,13 +54,13 @@
                       <td>{{ students.admin.username }}</td>
                       <td>{{ students.adresse }}</td>
                       <td>{{ students.gender }}</td>
-                      <td>{{ students.student_pic }}</td>
+                      <td><img src="{{ students.student_pic }}" style="width:50px"/></td>
                       <td>{{ students.session_start_year }}</td>
                       <td>{{ students.session_end_year }}</td>
                       <td>{{ students.coureses_id.courses_name }}</td>
                       <td>{{ students.admin.last_login }}</td>
                       <td>{{ students.admin.date_joined }}</td>
-                      <td><a href="edit_staff/{{ students.admin.id }}" class="btn btn-success">edit</a></td>
+                      <td><a href="edit_student/{{ students.admin.id }}" class="btn btn-success">edit</a></td>
                     </tr>
 
                   {% endfor %}
