@@ -42,7 +42,7 @@ urlpatterns = [
     path('show_student',hodviews.show_student,name="show_student"),
     path('show_cours',hodviews.show_cours,name="show_cours"),
     path('show_subject',hodviews.show_subject,name="show_subject"),
-    path('edit_staff/<str:staffs_id>',hodviews.edit_staff,name="edit_staff"),
+    path('edit_staff/<str:staff_id>',hodviews.edit_staff,name="edit_staff"),
     path('edit_save_staff',hodviews.edit_save_staff,name="edit_save_staff"),
     path('edit_student/<str:student_id>',hodviews.edit_student,name="edit_student"),
     path('edit_student_save',hodviews.edit_student_save,name="edit_student_save"),
@@ -51,4 +51,6 @@ urlpatterns = [
     path('edit_subject/<str:subject_id>',hodviews.edit_subject,name="edit_subject"),
     path('edit_subject_save',hodviews.edit_subject_save,name="edit_subject_save"),
     path('admin/', admin.site.urls),
+    # Stafff_url
+    path('staff_home')
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

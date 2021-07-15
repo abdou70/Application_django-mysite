@@ -60,7 +60,7 @@
                       <td>{{ students.coureses_id.courses_name }}</td>
                       <td>{{ students.admin.last_login }}</td>
                       <td>{{ students.admin.date_joined }}</td>
-                      <td><a href="edit_student/{{ students.admin.id }}" class="btn btn-success">edit</a></td>
+                      <td><a href="{% url 'edit_student' student_id=students.admin.id %}" class="btn btn-success">edit</a></td>
                     </tr>
 
                   {% endfor %}

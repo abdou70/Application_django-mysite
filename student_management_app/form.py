@@ -49,7 +49,7 @@ class EditStudentForm(forms.Form):
     genre = forms.ChoiceField(label="sex", choices=sex_choisis,widget=forms.Select(attrs={"class":"form-control"}))
     start_year=forms.DateField(label="Session_start_year")
     end_year = forms.DateField(label="Session_end_year")
-    pic=forms.FileField(label="Student_pic",widget=forms.FileInput(attrs={"class":"form-control"}))
+    pic=forms.FileField(label="Student_pic",widget=forms.FileInput(attrs={"class":"form-control"}),required=False)
 
 
 
