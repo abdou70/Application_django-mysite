@@ -5,7 +5,9 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
+from student_management_app.form import AddStudentForm, EditStudentForm
 from student_management_app.models import Staffs, Student, CostumUser, Courses, Subject
+
 
 
 def showpage(request):
@@ -55,7 +57,8 @@ def save_course(request):
 
 def add_students(request):
     courses=Courses.objects.all()
-    return render(request,'hod_template/add_student_template.html',{"courses":courses})
+    form=AddStudentForm()
+    return render(request,'hod_template/add_student_template.html',{"form":form})
 
 
 
@@ -63,37 +66,43 @@ def save_student(request):
     if request.method!="POST":
         return HttpResponseRedirect("methode non valide")
     else:
-        nom=request.POST.get("nom")
-        prenom=request.POST.get("prenom")
-        username=request.POST.get("username")
-        adresse = request.POST.get("adresse")
-        start_year = request.POST.get("start_year")
-        end_year = request.POST.get("end_year")
-        gender = request.POST.get("genre")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        courses_id = request.POST.get("cours_id")
+        form=AddStudentForm(request.POST,request.FILES )
+        if form.is_valid():
+            nom=form.cleaned_data["nom"]
+            prenom=form.cleaned_data["prenom"]
+            username=form.cleaned_data["username"]
+            adresse = form.cleaned_data["adresse"]
+            start_year = form.cleaned_data["start_year"]
+            end_year = form.cleaned_data["end_year"]
+            gender = form.cleaned_data["genre"]
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password"]
+            courses_id = form.cleaned_data["cours_id"]
 
-        pic = request.FILES["pic"]
-        fs= FileSystemStorage()
-        filename=fs.save(pic.name,pic)
-        pic_url=fs.url(filename)
+            pic = request.FILES["pic"]
+            fs= FileSystemStorage()
+            filename=fs.save(pic.name,pic)
+            pic_url=fs.url(filename)
 
-        try:
-            user=CostumUser.objects.create_user(first_name=nom, last_name=prenom, username=username, email=email, password=password, user_type=3)
-            user.student.adresse=adresse
-            courses_obj = Courses.objects.get(id=courses_id)
-            user.student.coureses_id=courses_obj
-            user.student.session_start_year=start_year
-            user.student.session_end_year=end_year
-            user.student.gender=gender
-            user.student.student_pic=pic_url
-            user.save()
-            messages.success(request,"student enregistrer avec success")
-            return HttpResponseRedirect('/add_students')
-        except:
-            messages.error(request,"student non enregistrer")
-            return HttpResponseRedirect('/add_students')
+            try:
+                user=CostumUser.objects.create_user(first_name=nom, last_name=prenom, username=username, email=email, password=password, user_type=3)
+                user.student.adresse=adresse
+                courses_obj = Courses.objects.get(id=courses_id)
+                user.student.coureses_id=courses_obj
+                user.student.session_start_year=start_year
+                user.student.session_end_year=end_year
+                user.student.gender=gender
+                user.student.student_pic=pic_url
+                user.save()
+                messages.success(request,"student enregistrer avec success")
+                return HttpResponseRedirect('/add_students')
+            except:
+                messages.error(request,"student non enregistrer")
+                return HttpResponseRedirect('/add_students')
+
+        else:
+            form=AddStudentForm(request.POST)
+            return render(request, 'hod_template/add_student_template.html', {"form": form})
 
 def add_subject(request):
     courses=Courses.objects.all()
@@ -166,15 +175,29 @@ def edit_save_staff(request):
             return HttpResponseRedirect('/edit_staff/'+staff_id)
 
 def edit_student(request,student_id):
-    students=Student.objects.get(admin=student_id)
-    courses=Courses.objects.all()
-    return render(request,'hod_template/edit_student_template.html',{"students":students,"courses":courses,"id":student_id})
+    request.session['student_id']=student_id
+    student=Student.objects.get(admin=student_id)
+    form=EditStudentForm()
+    form.fields['nom'].initial=student.admin.first_name
+    form.fields['prenom'].initial=student.admin.last_name
+    form.fields['username'].initial=student.admin.username
+    form.fields['email'].initial=student.admin.email
+    form.fields['adresse'].initial=student.adresse
+    form.fields['cours_id'].initial=student.coureses_id.id
+    form.fields['genre'].initial=student.gender
+    form.fields['start_year'].initial=student.session_start_year
+    form.fields['end_year'].initial=student.session_end_year
+    return render(request,'hod_template/edit_student_template.html',{"form":form,"id":student_id,"username":student.admin.username})
 
 def edit_student_save(request):
     if request.method!="POST":
         return HttpResponse("<h2>La methode n'est pas valide</h2>")
     else:
-        student_id=request.POST.get("student_id")
+        student_id=request.session.get("student_id")
+        if student_id==None:
+            return HttpResponseRedirect("/manage_student ")
+
+        form=EditStudentForm(request.POST,request.FILES)
         first_name = request.POST.get("nom")
         last_name = request.POST.get("prenom")
         username = request.POST.get("username")
@@ -210,6 +233,7 @@ def edit_student_save(request):
             user_model.coureses_id =courses_obj
             user_model.student_pic=pic_url
             user_model.save()
+            del request.session['student_id']
             messages.success(request, "student modifie avec success")
             return HttpResponseRedirect('/edit_student/' + student_id)
         except:
