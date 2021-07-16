@@ -30,10 +30,9 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                     return HttpResponseRedirect(reverse("student_home"))
             else:
                 return HttpResponseRedirect(reverse("show_loging "))
-
-        else:
+        """ else:
             if request.path == reverse("show_loging") or request.path == ("doLogin"):
-                pass
+                pass 
             else:
-                return HttpResponseRedirect(reverse("show_loging"))
+                return HttpResponseRedirect(reverse("show_loging")) """
 
