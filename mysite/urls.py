@@ -24,6 +24,7 @@ from mysite import settings
 from student_management_app import views,hodviews,staffViews,studentViews
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('student/',views.showview,name="student"),
     path('',views.Login,name="show_loging"),
     path('get_user_details',views.GetUserDetails,name="get_user_details"),
@@ -50,7 +51,7 @@ urlpatterns = [
     path('edit_cours_save',hodviews.edit_cours_save,name="edit_cours_save"),
     path('edit_subject/<str:subject_id>',hodviews.edit_subject,name="edit_subject"),
     path('edit_subject_save',hodviews.edit_subject_save,name="edit_subject_save"),
-    path('admin/', admin.site.urls),
+
     # Stafff_url
     path('staff_home',staffViews.staff_home,name="staff_home"),
     # Student_url
